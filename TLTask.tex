@@ -1,0 +1,200 @@
+\documentclass[a4paper]{article}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{bussproofs}
+\usepackage{mathtools}
+\usepackage{verbatim}
+\usepackage{dsfont}
+\usepackage{mathabx}
+\usepackage[all, 2cell]{xy}
+\usepackage[all]{xy}
+\usepackage{wasysym}
+\usepackage{rotating}
+\usepackage{geometry}
+\usepackage{trfsigns}
+\usepackage{cmll}
+\usepackage{authblk}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{lipsum}
+
+\theoremstyle{defin}
+\newtheorem{defin}{Definition}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}
+
+\theoremstyle{prop}
+\newtheorem{prop}{Proposition}
+
+\theoremstyle{lemma}
+\newtheorem{lemma}{Lemma}
+
+\theoremstyle{ex}
+\newtheorem{ex}{Example}
+
+
+\theoremstyle{col}
+\newtheorem{col}{Corollary}
+\newcommand{\BoxM}{\Box^{-}}
+\newcommand{\DiamondM}{\Diamond^{-}}
+
+\date{}
+\author{Daniel Rogozin}
+\affil{Lomonosov Moscow State University}
+\title{Completeness theorems for temporal logic extended with non-canonical axioms}
+\begin{document}
+
+\maketitle
+
+\begin{defin} A temporal language
+
+\begin{center}
+  $\phi, \psi ::= p \: | \bot \: | \: \phi \to \psi \: | \: \Diamond \phi \: | \: \DiamondM \phi$
+\end{center}
+\end{defin}
+
+Here and below, $\neg \phi = \phi \to \bot$, $\Box \phi = \neg \Diamond \neg \phi$, $\BoxM \phi = \neg \DiamondM \neg \phi$.
+
+\begin{defin} Minimal normal temporal logic
+
+  \begin{enumerate}
+    \item Classical propositional calculus
+    \item $\Box (p \to q) \to (\Box p \to \Box q)$
+    \item $\BoxM (p \to q) \to (\BoxM p \to \BoxM q)$
+    \item $\DiamondM \Box p \to p$
+    \item $\Diamond \BoxM p \to p$
+    \item Inference rules:
+
+  \begin{minipage}{0.1\textwidth}
+  \begin{flushleft}
+    \begin{prooftree}
+      \AxiomC{$\phi$}
+      \AxiomC{$\phi \to \psi$}
+      \RightLabel{{\bf MP}}
+      \BinaryInfC{$\psi$}
+    \end{prooftree}
+    \begin{prooftree}
+      \AxiomC{$\phi$}
+      \RightLabel{${\bf Nec}$}
+      \UnaryInfC{$\Box \phi$}
+    \end{prooftree}
+  \end{flushleft}
+  \end{minipage}\hfill
+  \begin{minipage}{1.0\textwidth}
+  \begin{flushright}
+    \begin{prooftree}
+      \AxiomC{$\phi(p_1, \dots, p_n)$}
+      \RightLabel{{\bf Sub}}
+      \UnaryInfC{$\phi (p_1 := \psi_1, \dots, p_n := \psi_n)$}
+    \end{prooftree}
+    \begin{prooftree}
+      \AxiomC{$\phi$}
+      \RightLabel{${\bf Nec}^{-}$}
+      \UnaryInfC{$\BoxM \phi$}
+    \end{prooftree}
+\end{flushright}
+\end{minipage}
+  \end{enumerate}
+
+\end{defin}
+
+\begin{defin} Kripke model
+
+  Let $\mathcal{F} = \langle W, R \rangle$ be a frame, then Kripke model is a tuple $\mathcal{M} = \langle \mathcal{F}, \vartheta \rangle$, where $\vartheta : PV \to 2^W$ is a valuation. A truth condition is defined as follows:
+
+  \begin{enumerate}
+    \item $\mathcal{M}, x \models p \Leftrightarrow x \in \vartheta(p)$
+    \item $\mathcal{M}, x \nvDash \bot$
+    \item $\mathcal{M}, x \models \phi \to \psi \Leftrightarrow \mathcal{M}, x \models \phi \Rightarrow \mathcal{M}, x \models \psi$
+    \item $\mathcal{M}, x \models \Diamond \phi \Leftrightarrow \exists y \in R(x) \:\: \mathcal{M}, y \models \phi$
+    \item $\mathcal{M}, x \models \DiamondM \phi \Leftrightarrow \exists y \in R^{-1}(x) \:\: \mathcal{M}, y \models \phi$
+  \end{enumerate}
+
+  The truth condition for boxes are defined as:
+
+  \begin{enumerate}
+    \item $\mathcal{M}, x \models \Box \phi \Leftrightarrow \forall y \in R(x) \:\: \mathcal{M}, y \models \phi$
+    \item $\mathcal{M}, x \models \BoxM \phi \Leftrightarrow \forall y \in R^{-1}(x) \:\: \mathcal{M}, y \models \phi$
+  \end{enumerate}
+\end{defin}
+
+\begin{defin}
+  
+\end{defin}
+
+\begin{defin}
+$ $
+
+  \begin{enumerate}
+    \item ${\bf AL}^{+} = \Box (\Box p \to p) \to \Box p = \Diamond p \to \Diamond (p \land \neg \Diamond p)$
+    \item ${\bf Grz}^{+} = \Box (\Box (p \to \Box p) \to p) \to p$
+  \end{enumerate}
+\end{defin}
+
+\begin{defin}
+$ $
+
+  \begin{enumerate}
+    \item ${\bf GL}.{\bf t}^{+} = {\bf K}.{\bf t} \oplus {\bf AL}^{+}$
+    \item ${\bf Grz}.{\bf t}^{+} = {\bf K}.{\bf t} \oplus {\bf Grz}^{+}$
+  \end{enumerate}
+\end{defin}
+
+\begin{prop} Let $\mathcal{F} = \langle W, R \rangle$ be a frame, then
+
+  \begin{enumerate}
+    \item $\mathcal{F} \models {\bf AL}^{+} \Leftrightarrow \text{ $R$ is transitive and Noetherian}$
+    \item $\mathcal{F} \models {\bf Grz}^{+} \Leftrightarrow \text{ $R$ is reflexive, transitive and Noetherian}$
+  \end{enumerate}
+\end{prop}
+
+\begin{defin}
+  Let $\mathcal{F} = \langle W, R \rangle$ be a frame, then a formula $\phi$ is $\mathcal{F}$-satisfiable, if $\mathcal{F} \nvDash \neg \phi$, i.e. there exists a valuation $\vartheta$ such that $\mathcal{M}, x \models \phi$ for a model $\mathcal{M} = \langle \mathcal{F}, \vartheta \rangle$ and $x \in W$.
+\end{defin}
+
+\begin{defin}
+  Let $\mathcal{L}$ be a normal temporal logic, then a formula $\phi$ is $\mathcal{L}$-consistent, if $\mathcal{L} \nvdash \neg \phi$
+\end{defin}
+
+\begin{lemma}
+  Let $\mathcal{L}$ be a normal temporal logic, then $\mathcal{L} = TL(\mathbb{F})$ iff every $\mathbb{F} \models \mathcal{L}$ and every $\mathcal{L}$-consistent
+  formula is $\mathcal{F}$-satisfiable.
+\end{lemma}
+
+\begin{defin} Selective filtration
+
+  Let $\mathcal{M} = \langle W, R, \vartheta \rangle$ be a Kripke models, $W' \subseteq W$, $R' \subseteq R$, let $\Psi$ be a set of formulae closed under \
+  subformulae. Let us define $\vartheta'(p) = \vartheta(p) \cap W'$ for $p \in \Psi$. Then a submodel $\mathcal{M}' = \langle W', R', \vartheta' \rangle$ is a
+  selective filtration of $\mathcal{M}$ through $\Psi$, if the following condition holds:
+
+  \begin{enumerate}
+    \item $\forall \Diamond \phi \in \Psi \:\: \forall x \in W' \:\: \mathcal{M}, x \models \Diamond \phi \Rightarrow \exists y \in R'(x) \:\: \mathcal{M}, y \models \phi$
+    \item $\forall \DiamondM \phi \in \Psi \:\: \forall x \in W' \:\: \mathcal{M}, x \models \DiamondM \phi \Rightarrow \exists y \in R'^{-}(x) \:\: \mathcal{M}, y \models \phi$
+  \end{enumerate}
+\end{defin}
+
+\begin{lemma}
+  Let $\mathcal{M} = \langle W, R, \vartheta \rangle$ be a Kripke model, $\Psi$ a set of formulae closed under subformulae and $\mathcal{M}'$ is a selective filtration of $\mathcal{M}$ through $\Psi$, then for each $\phi \in \Psi$ and $x \in W'$:
+
+  \begin{center}
+    $\mathcal{M}, x \models \phi \Leftrightarrow \mathcal{M}', x \models \phi$
+  \end{center}
+\end{lemma}
+
+\begin{theorem}
+  ${\bf GL}.{\bf t}^{+} = TL(Frames({\bf GL}.{\bf t}^{+}))$
+\end{theorem}
+
+\begin{proof}
+\end{proof}
+
+\begin{theorem}
+  ${\bf Grz}.{\bf t}^{+} = TL(Frames({\bf Grz}.{\bf t}^{+}))$
+\end{theorem}
+
+\begin{proof}
+\end{proof}
+\end{document}
