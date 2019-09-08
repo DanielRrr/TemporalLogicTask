@@ -122,7 +122,7 @@ Here and below, $\neg \phi = \phi \to \bot$, $\Box \phi = \neg \Diamond \neg \ph
 \end{defin}
 
 \begin{defin}
-  
+
 \end{defin}
 
 \begin{defin}
@@ -183,6 +183,128 @@ $ $
     $\mathcal{M}, x \models \phi \Leftrightarrow \mathcal{M}', x \models \phi$
   \end{center}
 \end{lemma}
+
+\begin{defin} Gentzen sequent calculus for ${\bf GL}.{\bf t}^{+}$ (${\bf GL}.{\bf t}^{+}_{G}$)
+$ $
+
+  \begin{minipage}{0.5\textwidth}
+  \begin{flushleft}
+
+    \begin{prooftree}
+      \AxiomC{$ $}
+      \RightLabel{\bf ax}
+      \UnaryInfC{$\Gamma, \phi \Rightarrow \Theta, \phi$}
+    \end{prooftree}
+
+    \begin{prooftree}
+      \AxiomC{$\Gamma \Rightarrow \Delta, \phi$}
+      \AxiomC{$\Gamma, \psi \Rightarrow \Delta$}
+      \RightLabel{$\to \Rightarrow$}
+      \BinaryInfC{$\Gamma, \phi \to \psi \Rightarrow \Delta$}
+    \end{prooftree}
+
+    \begin{prooftree}
+      \AxiomC{$\Box \Gamma, \Gamma, \Box \phi \Rightarrow \phi$}
+      \RightLabel{$\Box_I$}
+      \UnaryInfC{$\Box \Gamma \Rightarrow \Box \phi$}
+    \end{prooftree}
+
+    \begin{prooftree}
+      \AxiomC{$\Gamma, \phi \Rightarrow \Delta$}
+      \RightLabel{$\DiamondM \Box$}
+      \UnaryInfC{$\Gamma, \DiamondM \Box \phi \Rightarrow \Delta$}
+    \end{prooftree}
+  \end{flushleft}
+  \end{minipage}\hfill
+  \begin{minipage}{0.5\textwidth}
+  \begin{flushright}
+
+    \begin{prooftree}
+      \AxiomC{$ $}
+      \RightLabel{$\bot$}
+      \UnaryInfC{$\Gamma, \bot \Rightarrow \Theta$}
+    \end{prooftree}
+
+    \begin{prooftree}
+      \AxiomC{$\Gamma, \phi \Rightarrow \psi, \Delta$}
+      \RightLabel{$\Rightarrow \to$}
+      \UnaryInfC{$\Gamma, \Rightarrow \phi \to \psi, \Delta$}
+    \end{prooftree}
+
+    \begin{prooftree}
+      \AxiomC{$\Gamma \Rightarrow \phi$}
+      \RightLabel{$\Box_I$}
+      \UnaryInfC{$\BoxM \Gamma \Rightarrow \BoxM \phi$}
+    \end{prooftree}
+
+    \begin{prooftree}
+      \AxiomC{$\Gamma, \phi \Rightarrow \Delta$}
+      \RightLabel{$\Diamond \BoxM$}
+      \UnaryInfC{$\Gamma, \Diamond \BoxM \phi \Rightarrow \Delta$}
+    \end{prooftree}
+  \end{flushright}
+  \end{minipage}
+\end{defin}
+
+\begin{lemma}
+  If ${\bf GL}.{\bf t}^{+}_{G} \vdash \Gamma \Rightarrow \Delta$, then ${\bf GL}.{\bf t}^{+} \vdash \bigwedge \Gamma \rightarrow \bigvee \Delta$
+\end{lemma}
+
+\begin{proof}
+  \begin{enumerate}
+    \item Let ${\bf GL}.{\bf t}^{+}_{G} \vdash \Gamma, \phi \Rightarrow \Delta$
+$ $
+
+    $\begin{array}{lll}
+    (1) & {\bf GL}.{\bf t}^{+} \vdash (\bigwedge \Gamma \land \phi) \rightarrow \bigvee \Delta& \\
+    & \:\:\:\:\:\:\:\: \text{Induction hypothesis}& \\
+    (2) & {\bf GL}.{\bf t}^{+} \vdash \DiamondM \Box \phi \to \phi& \\
+    & \:\:\:\:\:\:\:\: \text{${\bf GL}.{\bf t}^{+}$ axiom}& \\
+    (3) & {\bf GL}.{\bf t}^{+} \vdash ((\phi \land \bigwedge \Gamma) \to \bigvee \Delta) \to (\phi \to (\bigwedge \Gamma \to \bigvee \Delta))& \\
+    & \:\:\:\:\:\:\:\: \text{Boolean tautology}& \\
+    (4) & {\bf GL}.{\bf t}^{+} \vdash \phi \to (\bigwedge \Gamma \to \bigvee \Delta)& \\
+    & \:\:\:\:\:\:\:\: \text{(1), (3), {\bf MP}}& \\
+    (5) & {\bf GL}.{\bf t}^{+} \vdash \DiamondM \Box \phi \to (\bigwedge \Gamma \to \bigvee \Delta)& \\
+    & \:\:\:\:\:\:\:\: \text{(2), (4), transitivity}& \\
+    (6) & {\bf GL}.{\bf t}^{+} \vdash (\DiamondM \Box \phi \to (\bigwedge \Gamma \to \bigvee \Delta)) \to ((\DiamondM \Box \phi \land \bigwedge \Gamma) \to \bigvee \Delta)& \\
+    & \:\:\:\:\:\:\:\: \text{Boolean tautology}& \\
+    (7) & {\bf GL}.{\bf t}^{+} \vdash (\DiamondM \Box \phi \land \bigwedge \Gamma) \to \bigvee \Delta & \\
+    & \:\:\:\:\:\:\:\: \text{(5), (6), {\bf MP}}& \\
+    \end{array}$
+
+    \item The case with $\Diamond \BoxM$ is similar to the previous one.
+  \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+  If ${\bf GL}.{\bf t}^{+} \vdash \phi$, then ${\bf GL}.{\bf t}^{+}_{G} \vdash \Rightarrow \phi$
+\end{lemma}
+
+\begin{proof}
+  $ $
+
+  \begin{enumerate}
+    \item ${\bf GL}.{\bf t}^{+}_{G} \vdash \Rightarrow \DiamondM \Box p \to p$
+
+  \begin{prooftree}
+    \AxiomC{$p \Rightarrow p$}
+    \RightLabel{$\DiamondM \Box$}
+    \UnaryInfC{$\DiamondM \Box p \Rightarrow p$}
+    \RightLabel{$\Rightarrow \to$}
+    \UnaryInfC{$\Rightarrow \DiamondM \Box p \to p$}
+  \end{prooftree}
+
+  \item ${\bf GL}.{\bf t}^{+}_{G} \vdash \Rightarrow \Diamond \BoxM p \to p$
+
+  \begin{prooftree}
+    \AxiomC{$p \Rightarrow p$}
+    \RightLabel{$\Diamond \BoxM$}
+    \UnaryInfC{$\Diamond \BoxM p\Rightarrow p$}
+    \RightLabel{$\Rightarrow \to$}
+    \UnaryInfC{$\Rightarrow \Diamond \BoxM p \to p$}
+  \end{prooftree}
+\end{enumerate}
+\end{proof}
 
 \begin{theorem}
   ${\bf GL}.{\bf t}^{+} = TL(Frames({\bf GL}.{\bf t}^{+}))$
