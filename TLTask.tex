@@ -44,7 +44,7 @@
 \date{}
 \author{Daniel Rogozin}
 \affil{Lomonosov Moscow State University}
-\title{Completeness theorems for temporal logic extended with non-canonical axioms}
+\title{Completeness theorems for temporal logics extended with L\"{o}b and Grzegorczyk formulae}
 \begin{document}
 
 \maketitle
@@ -57,6 +57,8 @@
 \end{defin}
 
 Here and below, $\neg \phi = \phi \to \bot$, $\Box \phi = \neg \Diamond \neg \phi$, $\BoxM \phi = \neg \DiamondM \neg \phi$.
+
+The underlying logic is ${\bf K}.{\bf t}$, see \cite{Gabbay1994} or \cite{Goldblatt}:
 
 \begin{defin} Minimal normal temporal logic
 
@@ -101,6 +103,9 @@ Here and below, $\neg \phi = \phi \to \bot$, $\Box \phi = \neg \Diamond \neg \ph
 
 \end{defin}
 
+\begin{defin} By normal temporal logic (or temporal logic) we mean the set of formulae that contains Kripke axioms for both boxes, $\DiamondM \Box p \to p$, $\Diamond \BoxM p \to p$, and closed under both necessitation rules, ${\bf MP}$, and ${\bf Sub}$.
+\end{defin}
+
 \begin{defin} Kripke model
 
   Let $\mathcal{F} = \langle W, R \rangle$ be a frame, then Kripke model is a tuple $\mathcal{M} = \langle \mathcal{F}, \vartheta \rangle$, where $\vartheta : PV \to 2^W$ is a valuation. A truth condition is defined as follows:
@@ -122,8 +127,54 @@ Here and below, $\neg \phi = \phi \to \bot$, $\Box \phi = \neg \Diamond \neg \ph
 \end{defin}
 
 \begin{defin}
-  
+  $ $
+
+  \begin{enumerate}
+    \item $\mathcal{M} \models \varphi \Leftrightarrow \forall x \in W \:\: \mathcal{M}, x \models \varphi$
+    \item $\mathcal{F} \models \varphi \Leftrightarrow \forall \vartheta \:\: \mathcal{M} \models \varphi$, where $\mathcal{M} = \langle \mathcal{F}, \vartheta \rangle$
+    \item Let $\mathcal{F}$ be a Kripke frame, then a temporal logic of $\mathcal{F}$ is the set of formulae that valid on $\mathcal{F}$, i.e., $\operatorname{TL}(\mathcal{F}) = \{ \varphi \in \operatorname{Fm} \: | \: \mathcal{F} \models \varphi \}$
+    \item Let $\mathbb{F}$ be a class of Kripke frames, then $\operatorname{TL}(\mathbb{F}) = \bigcap \limits_{\mathcal{F} \in \mathbb{F}} \operatorname{TL}(\mathcal{F})$
+    \item Let $\mathcal{L}$ be a temporal logic, then $\operatorname{Frames}(\mathcal{L}) = \{ \mathcal{F} \: | \: \mathcal{F} \models \mathcal{L} \}$
+  \end{enumerate}
 \end{defin}
+
+\begin{defin}
+  Let $\mathcal{F}_1 = \langle W_1, R_1\rangle$, $\mathcal{F}_2 = \langle W_2, R_1 \rangle$ be Kripke frames, then a $p$-morphism is a map $f : \mathcal{F}_1 \to \mathcal{F}_2$ with the following data:
+  \begin{enumerate}
+    \item $a R_1 b \Rightarrow f(a) R_2 f(b)$
+    \item $f(a) R_2 c \Rightarrow \exists b \in W_1 \:\: f(b) = c \: \& \: a R_1 b$
+    \item $c R_2 f(a) \Rightarrow \exists b \in W_1 \:\: f(b) = c \: \& \: b R_1 a$
+  \end{enumerate}
+\end{defin}
+
+\begin{defin}
+  Let $\mathcal{M}_1$, $\mathcal{M}_2$ be Kripke models, then $f: \mathcal{M}_1 \to \mathcal{M}_2$ is a temporal $p$-morphism, if $f$ is a temporal $p$-morphism of underlying frames and the following condition holds:
+
+  \begin{center}
+    $\mathcal{M}_1, x \models p \Leftrightarrow \mathcal{M}_2, f(x) \models p$ for each variable $p$
+  \end{center}
+\end{defin}
+
+\begin{lemma}
+  $ $
+
+  \begin{enumerate}
+    \item $\mathcal{M}_1, x \models \varphi \Leftrightarrow \mathcal{M}_2, f(x) \models \varphi$.
+    \item If $\mathcal{F}_1 \twoheadrightarrow \mathcal{F}_2$, then $\operatorname{TL}(\mathcal{F}_1) \subseteq \operatorname{TL}(\mathcal{F}_2)$.
+  \end{enumerate}
+\end{lemma}
+
+\begin{defin}
+  Let $\mathcal{F} = \langle W, R \rangle$ be a frame, then a formula $\phi$ is $\mathcal{F}$-satisfiable, if $\mathcal{F} \nvDash \neg \phi$, i.e. there exists a valuation $\vartheta$ such that $\mathcal{M}, x \models \phi$ for a model $\mathcal{M} = \langle \mathcal{F}, \vartheta \rangle$ and $x \in W$.
+\end{defin}
+
+\begin{defin}
+  Let $\mathcal{L}$ be a normal temporal logic, then a formula $\phi$ is $\mathcal{L}$-consistent, if $\mathcal{L} \nvdash \neg \phi$
+\end{defin}
+
+\begin{lemma}
+  Let $\mathcal{L}$ be a normal temporal logic, then $\mathcal{L} = \operatorname{TL}(\mathbb{F})$ iff every $\mathbb{F} \models \mathcal{L}$ and every $\mathcal{L}$-consistent formula is $\mathcal{F}$-satisfiable.
+\end{lemma}
 
 \begin{defin}
 $ $
@@ -147,22 +198,28 @@ $ $
 
   \begin{enumerate}
     \item $\mathcal{F} \models {\bf AL}^{+} \Leftrightarrow \text{ $R$ is transitive and Noetherian}$
-    \item $\mathcal{F} \models {\bf Grz}^{+} \Leftrightarrow \text{ $R$ is reflexive, transitive and Noetherian}$
+    \item $\mathcal{F} \models {\bf Grz}^{+} \Leftrightarrow \text{ $R$ is reflexive, transitive and there are no increasing chains $x_0 R x_1 R \dots$ such that $x_i \neq x_{i + 1}$}$
   \end{enumerate}
 \end{prop}
 
-\begin{defin}
-  Let $\mathcal{F} = \langle W, R \rangle$ be a frame, then a formula $\phi$ is $\mathcal{F}$-satisfiable, if $\mathcal{F} \nvDash \neg \phi$, i.e. there exists a valuation $\vartheta$ such that $\mathcal{M}, x \models \phi$ for a model $\mathcal{M} = \langle \mathcal{F}, \vartheta \rangle$ and $x \in W$.
-\end{defin}
+\begin{prop} Let $\mathcal{F} = \langle W, R \rangle$ be a frame, then
 
-\begin{defin}
-  Let $\mathcal{L}$ be a normal temporal logic, then a formula $\phi$ is $\mathcal{L}$-consistent, if $\mathcal{L} \nvdash \neg \phi$
-\end{defin}
+  \begin{enumerate}
+  \item If $\mathcal{F} \models {\bf AL}$, then $\mathcal{F} \models {\bf K}4.{\bf t}$
+  \item If $\mathcal{F} \models {\bf Grz}^{+}$, then $\mathcal{F} \models {\bf S}4.{\bf t}$
+\end{enumerate}
+\end{prop}
 
-\begin{lemma}
-  Let $\mathcal{L}$ be a normal temporal logic, then $\mathcal{L} = TL(\mathbb{F})$ iff every $\mathbb{F} \models \mathcal{L}$ and every $\mathcal{L}$-consistent
-  formula is $\mathcal{F}$-satisfiable.
-\end{lemma}
+\begin{proof}
+  $ $
+
+  \begin{enumerate}
+    \item If $\mathcal{F} \models {\bf AL}$, then $\mathcal{F} \models \Diamond \Diamond p \to \Diamond p$. Hence, $\mathcal{F} \models \DiamondM \DiamondM p \to \DiamondM p$.
+    \item The argument is similar to the previous one.
+  \end{enumerate}
+\end{proof}
+
+A selective filtration is defined standardly, e.g. \cite{ShapirovskyS02}.
 
 \begin{defin} Selective filtration
 
@@ -172,7 +229,7 @@ $ $
 
   \begin{enumerate}
     \item $\forall \Diamond \phi \in \Psi \:\: \forall x \in W' \:\: \mathcal{M}, x \models \Diamond \phi \Rightarrow \exists y \in R'(x) \:\: \mathcal{M}, y \models \phi$
-    \item $\forall \DiamondM \phi \in \Psi \:\: \forall x \in W' \:\: \mathcal{M}, x \models \DiamondM \phi \Rightarrow \exists y \in R'^{-}(x) \:\: \mathcal{M}, y \models \phi$
+    \item $\forall \DiamondM \phi \in \Psi \:\: \forall x \in W' \:\: \mathcal{M}, x \models \DiamondM \phi \Rightarrow \exists y \in R'^{-1}(x) \:\: \mathcal{M}, y \models \phi$
   \end{enumerate}
 \end{defin}
 
@@ -185,16 +242,102 @@ $ $
 \end{lemma}
 
 \begin{theorem}
-  ${\bf GL}.{\bf t}^{+} = TL(Frames({\bf GL}.{\bf t}^{+}))$
+  ${\bf GL}.{\bf t}^{+} = \operatorname{TL}(\operatorname{Frames}({\bf GL}.{\bf t}^{+}))$
 \end{theorem}
 
 \begin{proof}
+  $ $
+
+  Let us show that every ${\bf GL}.{\bf t}$-consistent formula is satisfiable in some ${\bf GL}.{\bf t}$ frame.
+
+  Let $\varphi$ be ${\bf GL}.{\bf t}$-consistent formula, then there exists $\Gamma \in \mathcal{F}_{{\bf GL}.{\bf t}^{+}}$ such that $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, \Gamma \models \varphi$. It is clear that $\Diamond \phi \to \Diamond (\varphi \land \neg \Diamond \varphi)$.
+  Here there exists $\Delta \in R_{{{\bf GL}.{\bf t}}^{+}}$ such that $\varphi \in Gamma$ and $(\varphi \land \neg \Diamond \varphi)$.
+
+  Let us define
+
+\begin{center}
+  $V_{\varphi} = V_1 \cap \downarrow V_2$
+\end{center}
+where $V_1 = \{ y \in \mathcal{F}_{{\bf GL}.{\bf t}^{+}} \: | \: \mathcal{M}_{{\bf GL}.{\bf t}^{+}}, y \models \psi \land \neg \Diamond \psi, \psi \in \}$ and
+$V_2 = \{ z \in \mathcal{F}_{{\bf GL}.{\bf t}^{+}} \: | \: \mathcal{M}_{{\bf GL}.{\bf t}^{+}}, y \models \DiamondM \psi, \DiamondM \psi \in
+\operatorname{Sub}(\varphi) \}$ and $\downarrow V_2 = V_2 \cup \{ y \in W_{{\bf GL}.{\bf t}^{+}} \: | \: \exists x \in W_{{\bf GL}.{\bf t}^{+}} \: y R x \}$
+
+\begin{lemma}
+  $\mathcal{M}_{{{\bf GL}.{\bf t}^{+}}} \uparrow V_{\varphi}$ is a selective filtration through $\operatorname{Sub}(\varphi)$
+\end{lemma}
+
+\begin{proof}
+  One needs to check that both conditions for diamonds holds. Here we denote $R_{{{\bf GL}.{\bf t}^{+}}} \uparrow V_{\varphi} \times V_{\varphi}$ as $R'$.
+
+\begin{enumerate}
+  \item Let $\Diamond \psi \in \operatorname{Sub}$ and $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, x \models \Diamond \psi$ for $x \in \mathcal{W}_{{{\bf GL}.{\bf t}^{+}}} \cap V_{\varphi}$, then there exists $y \in R_{{{\bf GL}.{\bf t}^{+}}}(x)$ such that $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, y \models \phi \land \neg \Diamond \psi$. Hence, $y \in W_{{{\bf GL}.{\bf t}^{+}}} \uparrow V_{\varphi} \times V_{\varphi}$.
+
+  On the other hand, $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, x \models \psi \land \neg \Diamond \psi$ and, consequently, $x \in W_{{{\bf GL}.{\bf t}^{+}}} \uparrow V_{\varphi} \times V_{\varphi}$. It is clear that $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, y \models \psi$ and $x S y$.
+
+  \item Let $\DiamondM \psi \in \operatorname{Sub}$ and $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, x \models \DiamondM \psi$ for
+  $x \in \mathcal{W}_{{{\bf GL}.{\bf t}^{+}}} \cap V_{\varphi}$. By construction, there exists $y \in S^{-1}(x)$ such that $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, y \models \psi$.
+\end{enumerate}
+\end{proof}
+
+\begin{lemma}
+  $\mathcal{F}_{{\bf GL}.{\bf t}^{+}} \uparrow V_{\varphi} \models {\bf GL}.{\bf t}^{+}$
+\end{lemma}
+\begin{proof}
+  By construction.
+\end{proof}
 \end{proof}
 
 \begin{theorem}
-  ${\bf Grz}.{\bf t}^{+} = TL(Frames({\bf Grz}.{\bf t}^{+}))$
+  ${\bf Grz}.{\bf t}^{+} = \operatorname{TL}(\operatorname{Frames}({\bf Grz}.{\bf t}^{+}))$
 \end{theorem}
 
 \begin{proof}
 \end{proof}
+
+\section{Finite model property}
+
+Here we introduce the notion of a temporal unravelling \cite{Shehtman14}.
+
+\begin{defin}
+  Let $\mathcal{F} = \langle W, R, R^{-1} \rangle$ be a cone with root $r$, then the temporal unravelling is the frame
+  $\mathcal{F}^{\#} = \langle W^{\#}, R^{\#}, R_{-1}^{\#} \rangle$, where $W^{\#}$ is the set of reduced paths and
+  $\alpha R^{\#} \beta \Leftrightarrow \beta = \langle \alpha, 1, x \rangle$ for some $x \in \mathcal{W}$ and
+  $\alpha R_{-1}^{\#} \beta \Leftrightarrow \beta = \langle \alpha, 0, x \rangle$ for some $x \in \mathcal{W}$.
+\end{defin}
+
+\begin{lemma} Let $\mathcal{F}^{\#}$ be a temporal tree, then $\pi : \mathcal{F}^{\#} \to \mathcal{F}$ is a two-sided $p$-morphism, where
+  $\pi : \langle \alpha, i, x \rangle \mapsto x$.
+\end{lemma}
+\begin{proof}
+  See, e.g. \cite{Shehtman14}.
+\end{proof}
+
+\begin{theorem}
+  ${\bf GL}.{\bf t}^{+}$ has finite model property.
+\end{theorem}
+
+\begin{proof}
+  We showed that ${\bf GL}.{\bf t}^{+}$ is complete with respect to Noetherian frames of finite height. Let $\mathcal{F} = \langle W, R \rangle$ be a cone and $R$ is a Noetherian and transitive. $\mathcal{F}$ is a $p$-moprphic image of $\mathcal{F}^{\#}$.
+
+Let $\varphi$ be a ${\bf GL}.{\bf t}^{+}$-consistent formula, then there exists a model on ${\bf GL}.{\bf t}^{+}$-cone $\mathcal{C}$ and $x \in \mathcal{C}$ such that $\mathcal{M}, x \models \varphi$, where $\mathcal{M} = \langle \mathcal{M}, R, \vartheta \rangle$ for some valuation $\vartheta$.
+
+Thus, $\varphi$ is satisfiable in $\mathcal{C}^{\#}$, that is, there exists a path $\alpha$ such that $x$ is the last element of $\alpha$ and $\mathcal{M}^{\#}, \alpha \models \varphi$, where $\vartheta^{'}$ is a valuation on $\mathcal{M}^{\#}$ and the underlying frame is $\mathcal{C}^{\#}$.
+
+Let us put $\Psi = \{ \Diamond \psi \: | \: \Diamond \psi \in \operatorname{Sub}(\varphi)\} \cup \{ \DiamondM \psi \: | \: \DiamondM \psi \in \operatorname{Sub}(\varphi)\}$.
+
+Suppose $\Psi = \{ \Diamond \phi_1, \dots, \Diamond \phi_m, \DiamondM \phi^{'}_1, \dots, \DiamondM \phi^{'}_n \}$.
+
+Let us define a selective filtration of $\mathcal{M}^{\#}$ inductively. Let $V_0 = \{ \alpha \}$. Let $\beta, \gamma \in V_i$. $\Diamond \psi_i \in \Psi$ and $\DiamondM \phi^{'}_j \in \Psi$ such that $\mathcal{M}^{\#}, \beta \Diamond \psi_i$ and $\mathcal{M}^{\#}, \gamma \models \DiamondM \phi^{'}_j$.
+
+We choose $\beta' \in R^{\#}(\beta)$ and $\gamma' \in (R^{\#})^{-1}(\gamma)$ such that $\mathcal{M}^{\#}, \beta' \models \psi_i$ and
+$\mathcal{M}^{\#}, \gamma' \models \phi^{'}_j$. Let us denote such a set as $V_{\alpha, \beta}$. It is clear that $|V_{\alpha, \beta}| \leq m + n$. Thus, $V_{i+1}$ is defined as follows:
+
+\begin{center}
+    $V_{i+1} = \bigcup \limits_{\alpha, \beta \in V_i} V_{\alpha, \beta}$
+\end{center}
+\end{proof}
+
+\bibliographystyle{amsplain}
+\bibliography{TLTask}
+
 \end{document}
