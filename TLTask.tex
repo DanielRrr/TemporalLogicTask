@@ -44,10 +44,12 @@
 \date{}
 \author{Daniel Rogozin}
 \affil{Lomonosov Moscow State University}
-\title{Completeness theorems for temporal logics extended with L\"{o}b and Grzegorczyk formulae}
+\title{Completeness theorems for temporal logics extended with L\"{o}b and Grzegorczyk axioms via selective filtration}
 \begin{document}
 
 \maketitle
+
+\section{Temporal logic background}
 
 \begin{defin} A temporal language
 
@@ -138,6 +140,8 @@ The underlying logic is ${\bf K}.{\bf t}$, see \cite{Gabbay1994} or \cite{Goldbl
   \end{enumerate}
 \end{defin}
 
+A temporal $p$-morphism extends the notion of a standard $p$-morphism with the lifting property for the converse relation \cite{Goldblatt}:
+
 \begin{defin}
   Let $\mathcal{F}_1 = \langle W_1, R_1\rangle$, $\mathcal{F}_2 = \langle W_2, R_1 \rangle$ be Kripke frames, then a $p$-morphism is a map $f : \mathcal{F}_1 \to \mathcal{F}_2$ with the following data:
   \begin{enumerate}
@@ -181,7 +185,7 @@ $ $
 
   \begin{enumerate}
     \item ${\bf AL}^{+} = \Box (\Box p \to p) \to \Box p = \Diamond p \to \Diamond (p \land \neg \Diamond p)$
-    \item ${\bf Grz}^{+} = \Box (\Box (p \to \Box p) \to p) \to p$
+    \item ${\bf AGrz}^{+} = \Box (\Box (p \to \Box p) \to p) \to p$
   \end{enumerate}
 \end{defin}
 
@@ -190,15 +194,19 @@ $ $
 
   \begin{enumerate}
     \item ${\bf GL}.{\bf t}^{+} = {\bf K}.{\bf t} \oplus {\bf AL}^{+}$
-    \item ${\bf Grz}.{\bf t}^{+} = {\bf K}.{\bf t} \oplus {\bf Grz}^{+}$
+    \item ${\bf GL}.{\bf t} = {\bf GL}.{\bf t}^{+} \oplus {\bf AL}^{-}$, where ${\bf AL}^{-} = \DiamondM p \to \DiamondM (p \land \neg \DiamondM p)$
+    \item ${\bf Grz}.{\bf t}^{+} = {\bf K}.{\bf t} \oplus {\bf AGrz}^{+}$
+    \item ${\bf Grz}.{\bf t}^{+} = {\bf AGrz}.{\bf t}^{+} \oplus {\bf AGrz}^{-}$, where ${\bf AGrz}^{-} = \BoxM (\BoxM (p \to \BoxM p) \to p) \to p$
   \end{enumerate}
 \end{defin}
 
 \begin{prop} Let $\mathcal{F} = \langle W, R \rangle$ be a frame, then
 
   \begin{enumerate}
-    \item $\mathcal{F} \models {\bf AL}^{+} \Leftrightarrow \text{ $R$ is transitive and Noetherian}$
-    \item $\mathcal{F} \models {\bf Grz}^{+} \Leftrightarrow \text{ $R$ is reflexive, transitive and there are no increasing chains $x_0 R x_1 R \dots$ such that $x_i \neq x_{i + 1}$}$
+    \item $\mathcal{F} \models {\bf AL}^{+} \Leftrightarrow$ $R$ is transitive and Noetherian
+    \item $\mathcal{F} \models {\bf Grz}^{+} \Leftrightarrow$ $R$ is reflexive, transitive and there are no increasing chains $x_0 R x_1 R \dots$ such that $x_i \neq x_{i + 1}$. Equivalently, any non-empty subset has a $R$-maximal element.
+    \item $\mathcal{F} \models {\bf AL}^{-} \Leftrightarrow$ $R$ is transitive and $R^{-1}$ is Noetherian, that is, there are no descreasing  $x_0 R^{-1} x_1 R^{-1} x_2 \dots$. Equivalently, any non-empty subset has a $R$-minimal element.
+    \item $\mathcal{F} \models {\bf Grz}^{-} \Leftrightarrow \text{ $R$ is reflexive, transitive and there are no decreasing chains $x_0 R^{-1} x_1 R^{-1} \dots$ such that $x_i \neq x_{i + 1}$}$
   \end{enumerate}
 \end{prop}
 
@@ -234,57 +242,123 @@ A selective filtration is defined standardly, e.g. \cite{ShapirovskyS02}.
 \end{defin}
 
 \begin{lemma}
-  Let $\mathcal{M} = \langle W, R, \vartheta \rangle$ be a Kripke model, $\Psi$ a set of formulae closed under subformulae and $\mathcal{M}'$ is a selective filtration of $\mathcal{M}$ through $\Psi$, then for each $\phi \in \Psi$ and $x \in W'$:
+  Let $\mathcal{M} = \langle W, R, \vartheta \rangle$ be a Kripke model, $\Psi$ a set of formulae closed under subformulae and $\mathcal{M}'$ is a temporal selective filtration of $\mathcal{M}$ through $\Psi$, then for each $\phi \in \Psi$ and $x \in W'$:
 
   \begin{center}
     $\mathcal{M}, x \models \phi \Leftrightarrow \mathcal{M}', x \models \phi$
   \end{center}
 \end{lemma}
 
+\section{Selective filtration for observed logics}
+
+\subsection{${\bf GL}.{\bf t}$}
+
+We show that every ${\bf GL}.{\bf t}$-consistent formula $\varphi$ is satisfiable in some ${\bf GL}.{\bf t}$-frame. Then there exists a maximal set $x$ such that $\varphi \in x$.
+Since $x$ is maximal, then $\Diamond \phi \to \Diamond (\varphi \land \neg \Diamond \varphi), \DiamondM \phi \to \DiamondM (\varphi \land \neg \DiamondM \varphi) \in x$. That is, $\Diamond \phi \notin x$ or $\Diamond (\varphi \land \neg \Diamond \varphi) \in x$
+and $\DiamondM \phi \notin x$ or $\DiamondM (\varphi \land \neg \DiamondM \varphi) \in x$. Thus, there exist $y_1 \in R_{{\bf GL}.{\bf t}}(x)$ and $y_2 \in R^{-1}_{{\bf GL}.{\bf t}}(x)$ such that $\Diamond (\varphi \land \neg \Diamond \varphi) \in y_1$ and $\DiamondM (\varphi \land \neg \DiamondM \varphi) \in y_2$.
+
+Let us define
+
+\begin{center}
+$V_{\varphi} = {V_{\varphi}}_1 \cup {V_{\varphi}}_2$
+\end{center}
+where ${V_{\varphi}}_1 = \{ y_1 \in W_{{\bf GL}.{\bf t}} \: | \: \mathcal{M}_{{\bf GL}.{\bf t}}, y_1 \models \psi \land \neg \Diamond \psi, \psi \in
+\operatorname{Sub}(\varphi)\}$ and ${V_{\varphi}}_2 = \{ y_2 \in W_{{\bf GL}.{\bf t}} \: | \: \mathcal{M}_{{\bf GL}.{\bf t}}, y_2 \models \psi \land \neg
+\DiamondM \psi, \psi \in \operatorname{Sub}(\varphi)\}$.
+
+\begin{lemma}
+  $\mathcal{M}_{{\bf GL}.{\bf t}} \uparrow V_{\varphi}$ is a temporal selective filtration through $\operatorname{Sub}(\varphi)$
+\end{lemma}
+
+Let us denote $R_{{\bf GL}.{\bf t}} \cap V_{\varphi}$ as $R'$.
+
+\begin{proof}
+  $ $
+
+  \begin{enumerate}
+    \item Let $\Diamond \psi \in \operatorname{Sub}$ and $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, x \models \Diamond \psi$ for
+    $x \in \mathcal{W}_{{\bf GL}.{\bf t}} \cap V_{\varphi}$, then there exists $y \in R_{{{\bf GL}.{\bf t}^{+}}}(x)$
+    such that $\mathcal{M}_{{\bf GL}.{\bf t}}, y \models \phi \land \neg \Diamond \psi$. Hence, $y \in V_{\varphi}$.
+
+    On the other hand, $\mathcal{M}_{{\bf GL}.{\bf t}}, x \models \psi \land \neg \Diamond \psi$ and, consequently, $x \in W_{{{\bf GL}.{\bf t}^{+}}} \uparrow V_{\varphi} \times V_{\varphi}$. It is clear that $\mathcal{M}_{{\bf GL}.{\bf t}}, y \models \psi$ and $x R' y$.
+    \item The similar argument for $\DiamondM$.
+  \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+  $\mathcal{F}_{{\bf GL}.{\bf t}} \uparrow V_{\varphi} \models {\bf GL}.{\bf t}$
+\end{lemma}
+
+\begin{proof}
+  It is obviously irreflexive and transitive.
+  Let $V'$ be a non-empty subset of $V_{\varphi}$ and $V'$ has no $R'$-minimal element.
+  That is, for each $x \in V'$ there exists $y \in V'$ such that $y R' x$.
+  Let us consider two cases:
+
+  \begin{enumerate}
+    \item $x \in {V_{\varphi}}_1$, then $\psi \land \neg \Diamond \psi$ for some $\psi \in \operatorname{Sub}(\varphi)$. Hence, $\DiamondM (\psi \land \neg \Diamond \psi) \in y$. On the other hand,
+    $\DiamondM (\psi \land \neg \Diamond \psi) \to \DiamondM((\psi \land \neg \Diamond \psi) \land \neg \DiamondM (\psi \land \neg \Diamond \psi)) \in y$.
+    Thus, $\DiamondM((\psi \land \neg \Diamond \psi) \land \neg \DiamondM (\psi \land \neg \Diamond \psi)) \in y$. Thus, there exists $z \in {R'}^{-1}(y)$ such that
+    $(\psi \land \neg \Diamond \psi) \land \neg \DiamondM (\psi \land \neg \Diamond \psi) \in z$. Then $\psi \land \neg \Diamond \psi \in z$ and $\neg \DiamondM (\psi \land \neg \Diamond \psi) \in z$. Then, $\DiamondM (\psi \land \neg \Diamond \psi) \in z$ since there exists $z' \in {R'}^{-1}(z)$ by our assumption.
+
+    Contradiction.
+
+    \item $x \in {V_{\varphi}}_2$, then $\psi \land \neg \DiamondM \psi \in x$ for some $\psi \in \operatorname{Sub}(\varphi)$. Then $\phi, \neg \DiamondM \psi \in x$. $V'$ has no $R'$-minimal element, then there exists $y \in {R'}^{-1}(x)$. Thus $\DiamondM \phi \in x$. Contradiction.
+  \end{enumerate}
+\end{proof}
+
+\subsection{${\bf GL}.{\bf t}^{-}$}
+
+Let us show that every ${\bf GL}.{\bf t}^{-}$-consistent formula is satisfiable in some ${\bf GL}.{\bf t}$ frame. Let $\varphi$ be a ${\bf GL}.{\bf t}$-consistent formula, then there exists $\Gamma \in \mathcal{F}_{{\bf GL}.{\bf t}^{+}}$ such that $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, x \models \varphi$. It is clear that $\Diamond \phi \to \Diamond (\varphi \land \neg \Diamond \varphi) \in x$.
+Hence, $\Diamond \phi \notin x$ or $\Diamond (\varphi \land \neg \Diamond \varphi) \in x$. Hence, there exists $y \in R_{{\bf GL}.{\bf t}^{+}}(x)$ such that
+$\varphi \in y$ and $\neg \Diamond \varphi \in y$.
+
+Let us define
+
+\begin{center}
+$V_{\varphi} = V_1 \cap \downarrow V_2$
+\end{center}
+where $V_1 = \{ y \in \mathcal{W}_{{\bf GL}.{\bf t}^{+}} \: | \: \mathcal{M}_{{\bf GL}.{\bf t}^{+}}, y \models \psi \land \neg \Diamond \psi, \psi \in \operatorname{Sub}(\psi)\}$ and $V_2 = \{ z \in \mathcal{W}_{{\bf GL}.{\bf t}^{+}} \: | \: \mathcal{M}_{{\bf GL}.{\bf t}^{+}}, y \models \DiamondM \psi, \DiamondM \psi \in \operatorname{Sub}(\varphi) \}$ and $\downarrow V_2 = V_2 \cup \{ y \in V_2 \: | \: \exists x \in W_{{\bf GL}.{\bf t}^{+}} \: y R x \}$
+
+\begin{lemma}
+$\mathcal{M}_{{{\bf GL}.{\bf t}^{+}}} \uparrow V_{\varphi}$ is a selective filtration through $\operatorname{Sub}(\varphi)$
+\end{lemma}
+
+\begin{proof}
+One needs to check that both conditions for diamonds holds. Here we denote $R_{{{\bf GL}.{\bf t}^{+}}} \uparrow V_{\varphi} \times V_{\varphi}$ as $R'$.
+
+\begin{enumerate}
+\item
+
+\item Let $\DiamondM \psi \in \operatorname{Sub}$ and $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, x \models \DiamondM \psi$ for
+$x \in \mathcal{W}_{{{\bf GL}.{\bf t}^{+}}} \cap V_{\varphi}$. By construction, there exists $y \in S^{-1}(x)$ such that $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, y \models \psi$.
+\end{enumerate}
+\end{proof}
+
+\begin{lemma}
+$\mathcal{F}_{{\bf GL}.{\bf t}^{+}} \uparrow V_{\varphi} \models {\bf GL}.{\bf t}^{+}$
+\end{lemma}
+\begin{proof}
+By construction.
+\end{proof}
+
 \begin{theorem}
-  ${\bf GL}.{\bf t}^{+} = \operatorname{TL}(\operatorname{Frames}({\bf GL}.{\bf t}^{+}))$
+  $ $
+
+  \begin{enumerate}
+  \item ${\bf GL}.{\bf t}^{+} = \operatorname{TL}(\operatorname{Frames}({\bf GL}.{\bf t}^{+}))$
+  \item ${\bf GL}.{\bf t} = \operatorname{TL}(\operatorname{Frames}({\bf GL}.{\bf t}))$
+  \item ${\bf Grz}.{\bf t}^{+} = \operatorname{TL}(\operatorname{Frames}({\bf Grz}.{\bf t}^{+}))$
+  \item ${\bf Grz}.{\bf t} = \operatorname{TL}(\operatorname{Frames}({\bf Grz}.{\bf t}))$
+  \end{enumerate}
 \end{theorem}
 
 \begin{proof}
   $ $
 
-  Let us show that every ${\bf GL}.{\bf t}$-consistent formula is satisfiable in some ${\bf GL}.{\bf t}$ frame.
-
-  Let $\varphi$ be ${\bf GL}.{\bf t}$-consistent formula, then there exists $\Gamma \in \mathcal{F}_{{\bf GL}.{\bf t}^{+}}$ such that $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, \Gamma \models \varphi$. It is clear that $\Diamond \phi \to \Diamond (\varphi \land \neg \Diamond \varphi)$.
-  Here there exists $\Delta \in R_{{{\bf GL}.{\bf t}}^{+}}$ such that $\varphi \in Gamma$ and $(\varphi \land \neg \Diamond \varphi)$.
-
-  Let us define
-
-\begin{center}
-  $V_{\varphi} = V_1 \cap \downarrow V_2$
-\end{center}
-where $V_1 = \{ y \in \mathcal{F}_{{\bf GL}.{\bf t}^{+}} \: | \: \mathcal{M}_{{\bf GL}.{\bf t}^{+}}, y \models \psi \land \neg \Diamond \psi, \psi \in \}$ and
-$V_2 = \{ z \in \mathcal{F}_{{\bf GL}.{\bf t}^{+}} \: | \: \mathcal{M}_{{\bf GL}.{\bf t}^{+}}, y \models \DiamondM \psi, \DiamondM \psi \in
-\operatorname{Sub}(\varphi) \}$ and $\downarrow V_2 = V_2 \cup \{ y \in W_{{\bf GL}.{\bf t}^{+}} \: | \: \exists x \in W_{{\bf GL}.{\bf t}^{+}} \: y R x \}$
-
-\begin{lemma}
-  $\mathcal{M}_{{{\bf GL}.{\bf t}^{+}}} \uparrow V_{\varphi}$ is a selective filtration through $\operatorname{Sub}(\varphi)$
-\end{lemma}
-
-\begin{proof}
-  One needs to check that both conditions for diamonds holds. Here we denote $R_{{{\bf GL}.{\bf t}^{+}}} \uparrow V_{\varphi} \times V_{\varphi}$ as $R'$.
-
 \begin{enumerate}
-  \item Let $\Diamond \psi \in \operatorname{Sub}$ and $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, x \models \Diamond \psi$ for $x \in \mathcal{W}_{{{\bf GL}.{\bf t}^{+}}} \cap V_{\varphi}$, then there exists $y \in R_{{{\bf GL}.{\bf t}^{+}}}(x)$ such that $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, y \models \phi \land \neg \Diamond \psi$. Hence, $y \in W_{{{\bf GL}.{\bf t}^{+}}} \uparrow V_{\varphi} \times V_{\varphi}$.
-
-  On the other hand, $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, x \models \psi \land \neg \Diamond \psi$ and, consequently, $x \in W_{{{\bf GL}.{\bf t}^{+}}} \uparrow V_{\varphi} \times V_{\varphi}$. It is clear that $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, y \models \psi$ and $x S y$.
-
-  \item Let $\DiamondM \psi \in \operatorname{Sub}$ and $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, x \models \DiamondM \psi$ for
-  $x \in \mathcal{W}_{{{\bf GL}.{\bf t}^{+}}} \cap V_{\varphi}$. By construction, there exists $y \in S^{-1}(x)$ such that $\mathcal{M}_{{\bf GL}.{\bf t}^{+}}, y \models \psi$.
-\end{enumerate}
-\end{proof}
-
-\begin{lemma}
-  $\mathcal{F}_{{\bf GL}.{\bf t}^{+}} \uparrow V_{\varphi} \models {\bf GL}.{\bf t}^{+}$
-\end{lemma}
-\begin{proof}
-  By construction.
-\end{proof}
+  \item
+  \end{enumerate}
 \end{proof}
 
 \begin{theorem}
