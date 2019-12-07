@@ -180,6 +180,10 @@ A temporal $p$-morphism extends the notion of a standard $p$-morphism with the l
   Let $\mathcal{L}$ be a normal temporal logic, then $\mathcal{L} = \operatorname{TL}(\mathbb{F})$ iff every $\mathbb{F} \models \mathcal{L}$ and every $\mathcal{L}$-consistent formula is $\mathcal{F}$-satisfiable.
 \end{lemma}
 
+\begin{lemma}
+  Let $\mathbb{F}$ be a class of frames, then $\operatorname{TL}(\mathbb{F}) = \operatorname{Cones}(\mathbb{F})$
+\end{lemma}
+
 \begin{defin}
 $ $
 
@@ -382,16 +386,80 @@ Here we introduce the notion of a temporal unravelling \cite{Shehtman14}.
 \begin{lemma} Let $\mathcal{F}^{\#}$ be a temporal tree, then $\pi : \mathcal{F}^{\#} \to \mathcal{F}$ is a two-sided $p$-morphism, where
   $\pi : \langle \alpha, i, x \rangle \mapsto x$.
 \end{lemma}
+
 \begin{proof}
   See, e.g. \cite{Shehtman14}.
 \end{proof}
 
+\subsection{Unravelling for ${\bf GL}.{\bf t}$ and ${\bf GL}.{\bf t}^{+}$}
+
+\begin{defin} Let $\mathcal{F} = \langle W, R \rangle$ be a temporal frame, then $\mathcal{F}$ is a two-sided transitive tree, if $\langle W, R \rangle$ and $\langle W, R^{-1} \rangle$ are rooted partial orders with a root $r$ such that $R(x)$ and $R^{-1}(x)$ are finite chains for each $x \in W$.
+\end{defin}
+
+\begin{prop} Let $\mathcal{F} = \langle W, R \rangle$ be a temporal frame s.t. $\langle W, R \rangle$ and $\langle W, R^{-1} \rangle$ are strict orders of finite height, then there exists a two-sided irreflexive tree $\mathcal{T}$ such that $\mathcal{T} \twoheadrightarrow \mathcal{F}$.
+\end{prop}
+
+\begin{proof}
+  Follows from the general unravelling construction.
+\end{proof}
+
+Let $\varphi$ be a ${\bf GL}.{\bf t}$-consistent formula, then there exists a cone $\mathcal{F}$ and a valuation $\vartheta$, such that $\mathcal{M}, x \models \varphi$, where $\mathcal{M} = \langle W, \vartheta \rangle$. $\mathcal{F}$ is a $p$-morphic image of $\mathcal{F}^{\#}$.
+Thus, $\varphi$ is satisfiable in $\mathcal{F}^{\#}$, that is, there exists a model $\mathcal{M}^{\#}$ such that $\mathcal{M}^{\#}, \alpha \models \varphi$.
+
+Let $\Psi = \{ \Diamond \psi \: | \: \Diamond \psi \in \operatorname{Sub}(\varphi)\} \cup \{ \DiamondM \psi \: | \: \DiamondM \psi \in
+\operatorname{Sub}(\varphi)\}$ and $\Psi = \{ \Diamond \psi_1, \dots, \Diamond \psi_m, \DiamondM \psi^{'}_1, \dots, \DiamondM \psi^{'}_n \}$.
+
+We build a selective filtration of $\mathcal{M}^{\#}$ inductively. Let us put $V_0 = \{ \alpha \}$. Let $\beta, \gamma \in V_i$ such that $\mathcal{M}^{\#}, \beta \models \models \Diamond \psi$ and $\mathcal{M}^{\#}, \gamma \models \models \DiamondM \psi^{'}$.
+We take $\beta^{'} \in R^{\#}(\beta)$ and $\gamma^{'} \in R^{\#}_{-1}(\gamma)$ such that $\mathcal{M}^{\#}, \beta^{'} \models \psi$ and $\mathcal{M}^{\#}, \gamma^{'} \models \psi^{'}$.
+Let us put $V_{i + 1} = \bigcup \limits_{\beta, \gamma \in V_i} V_{\beta, \gamma}$.
+
+Let us note that such $|V_{\beta, \gamma}| \leq \operatorname{max}(m,n)$ for each $i$. Thus, $V_i$ is finite for each $i$, hence, $V_{n + 1} = \emptyset$ for some $n \in \mathbb{N}$.
+
+Moreover, let us denote $h_1(x)$ as the maximal lenght of $R$-chain where $x$ is a maximal element and $h_2(x)$ as the maximal length of $R^{-1}$-chain, then $z \in V_i$ implies that $h_j(z) \leq i$, where $j = 1,2$.
+
+\begin{lemma}
+  $\mathcal{M}^{\#} \upharpoonright V$ is a selective filtration of $\mathcal{M}^{\#}$ through $\operatorname{Sub}(\varphi)$.
+\end{lemma}
+
+\begin{proof}
+  $ $
+
+  \begin{enumerate}
+    \item Let $\mathcal{M}^{\#}, \beta \models \Diamond \psi$ and $\Diamond \psi \in \operatorname{Sub}(\varphi)$. Then $\beta \in V_i$ for some $i$
+    and $\mathcal{M}, \gamma \models \psi$ for some $\gamma \in R^{\#}(\beta)$. Thus $\gamma \in V_{i + 1}$ and $\langle \beta, \gamma \rangle \in R^{\#} \upharpoonright V \times V$
+    \item Similarly for the $\DiamondM \psi$ case.
+  \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+  $\mathcal{F} \upharpoonright V$ is a finite irreflexive transitive temporal tree.
+\end{lemma}
+
+\begin{proof}
+  By construction.
+\end{proof}
+
+The following theorem is a consequence from the previous two lemmas.
+
 \begin{theorem}
-  ${\bf GL}.{\bf t}^{+}$ has finite model property.
+  ${\bf GL}.{\bf t} = \operatorname{TL}(\operatorname{Frames}_{fin}({\bf GL}.{\bf t}))$
+\end{theorem}
+
+\begin{theorem}
+  $ $
+
+  \begin{enumerate}
+  \item ${\bf GL}.{\bf t}^{+} = \operatorname{TL}(\operatorname{Frames}_{fin}({\bf GL}.{\bf t}^{+}))$
+  \item ${\bf Grz}.{\bf t} = \operatorname{TL}(\operatorname{Frames}_{fin}({\bf Grz}.{\bf t}))$
+  \item ${\bf Grz}.{\bf t}^{+} = \operatorname{TL}(\operatorname{Frames}_{fin}({\bf Grz}.{\bf t}^{+}))$
+  \end{enumerate}
 \end{theorem}
 
 \begin{proof}
-  We showed that ${\bf GL}.{\bf t}^{+}$ is complete with respect to Noetherian frames of finite height. Let $\mathcal{F} = \langle W, R \rangle$ be a cone and $R$ is a Noetherian and transitive. $\mathcal{F}$ is a $p$-moprphic image of $\mathcal{F}^{\#}$.
+  $ $
+
+
+We showed that ${\bf GL}.{\bf t}^{+}$ is complete with respect to Noetherian frames of finite height. Let $\mathcal{F} = \langle W, R \rangle$ be a cone and $R$ is a Noetherian and transitive. $\mathcal{F}$ is a $p$-moprphic image of $\mathcal{F}^{\#}$.
 
 Let $\varphi$ be a ${\bf GL}.{\bf t}^{+}$-consistent formula, then there exists a model on ${\bf GL}.{\bf t}^{+}$-cone $\mathcal{C}$ and $x \in \mathcal{C}$ such that $\mathcal{M}, x \models \varphi$, where $\mathcal{M} = \langle \mathcal{M}, R, \vartheta \rangle$ for some valuation $\vartheta$.
 
